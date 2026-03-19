@@ -1,0 +1,1244 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AIfication</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230c0c0e'/><text x='16' y='23' text-anchor='middle' font-family='sans-serif' font-size='20' font-weight='700' fill='%234f8ef7'>AI</text></svg>">
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap"
+			rel="stylesheet"
+		/>
+
+		<link rel="stylesheet" href="node_modules/reveal.js/dist/reset.css" />
+		<link rel="stylesheet" href="node_modules/reveal.js/dist/reveal.css" />
+		<link rel="stylesheet" href="node_modules/reveal.js/dist/theme/black.css" />
+		<link rel="stylesheet" href="node_modules/reveal.js/dist/plugin/highlight/monokai.css" />
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!-- ── TITLE SLIDE ────────────────────────────────── -->
+				<section class="title-slide">
+					<h1><span class="accent">AI</span>fication</h1>
+					<p class="author">Ramis Imilbaev</p>
+				</section>
+
+				<!-- ══ PART 1: ANNOUNCEMENTS ══════════════════════ -->
+
+				<!-- Section divider -->
+				<section class="section-slide">
+					<span class="section-number">01</span>
+					<p class="section-label">Part 1</p>
+					<h2>Announcements</h2>
+				</section>
+
+				<!-- Hackathon announcement -->
+				<section class="hackathon-slide">
+					<div class="hackathon-header">
+						<span class="tag amber">Upcoming · Mar 25 deadline</span>
+						<h2>First Finom <span class="accent">AI</span> Hackathon</h2>
+						<p class="hackathon-sub">Company-wide innovation sprint — join, build, win.</p>
+					</div>
+
+					<div class="cols" style="margin-top: 1em;">
+						<div class="card">
+							<span class="label">Hacking</span>
+							<p class="hackathon-date">Mar 26–27</p>
+							<p>Online · 24+ hours</p>
+						</div>
+						<div class="card">
+							<span class="label">Presentations</span>
+							<p class="hackathon-date">Mar 30</p>
+							<p>5 min pitch + demo · C-level judges</p>
+						</div>
+					</div>
+
+					<div class="hackathon-footer">
+						<span>Teams 3–11 people</span>
+						<span class="dot">·</span>
+						<span>Any AI tool allowed</span>
+						<span class="dot">·</span>
+						<span>Tool costs partially reimbursed</span>
+						<span class="dot">·</span>
+						<span class="hackathon-slack">#finom-hackathon</span>
+					</div>
+				</section>
+
+				<!-- Announcements content -->
+				<section>
+					<h2>Announcements</h2>
+					<div class="cols">
+						<div class="card">
+							<span class="tag">New</span>
+							<h3>Statements microfrontend</h3>
+							<p>A new MFE for everything related to statements. All statement logic now lives in one place.</p>
+						</div>
+
+						<div class="card">
+							<span class="tag">Shipped</span>
+							<h3>react-hook-form in User Application</h3>
+							<p>Available via <code>libs/hook-form</code> with a thin wrapper.</p>
+							<div class="divider"></div>
+							<ul>
+								<li>Use it now — wrapper is ready</li>
+								<li>Next quarter: migrating to <code>finom/forms</code></li>
+								<li>Plan: <code>M69/ui</code> → <code>finom/ui</code> + Ant6 form components</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+				<!-- Form handling approach -->
+				<section>
+					<h2>Form handling: the direction</h2>
+					<div class="cols">
+						<div>
+							<p>Three concepts, clearly separated:</p>
+							<ul>
+								<li><strong>Field</strong> — thin wrapper: connects react-hook-form to the UI component</li>
+								<li><strong>Layout</strong> — visual arrangement: label, errors, spacing, extra buttons</li>
+								<li><strong>Controller</strong> — wires RHF state into Layout + Field via context</li>
+							</ul>
+							<div class="note info" style="margin-top:10px;">
+								<p>Layout and Field are separated so display can vary without duplicating field logic.</p>
+							</div>
+						</div>
+						<div>
+							<span class="label">API</span>
+							<pre><code>&lt;ControllerLayout name="field" rules={}&gt;
+  &lt;Field /&gt;
+&lt;/ControllerLayout&gt;</code></pre>
+							<p>Multiple layout variants out of the box:</p>
+							<ul>
+								<li><code>ControllerGridLayout</code></li>
+								<li><code>ControllerVerticalLayout</code></li>
+								<li>Custom layouts via <code>ControllerDefaultLayout</code></li>
+							</ul>
+							<div class="note warn" style="margin-top:10px;">
+								<p><strong>Next quarter:</strong> finom/forms + field components. Unified approach across all MFEs.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- ══ PART 2: GENERAL ════════════════════════════ -->
+	
+				<section class="section-slide">
+					<p class="part-label">Part 2</p>
+					<h2>General</h2>
+				</section>
+	
+				<!-- World is changing -->
+				<section>
+					<h2>The world has changed</h2>
+					<div class="cols">
+						<div>
+							<p style="font-size:15px;line-height:1.7;">The tools changed. The job is changing with them. <em>We need to adapt.</em></p>
+							<div class="divider" style="margin:0.8em 0;"></div>
+							<ul>
+								<li>Before: you were the agent</li>
+								<li>Now: you are the team lead of AI agents</li>
+								<li>Tomorrow: you are the product owner</li>
+							</ul>
+							<div class="divider" style="margin:0.8em 0;"></div>
+							<p style="font-size:13px;">The bottleneck moves from <em>doing</em> to <em>specifying</em>. You define the task — the agent handles the execution loop.</p>
+							<div class="note info" style="margin-top:0.7em;">
+								<p>The only question is how fast you adapt.</p>
+							</div>
+						</div>
+						<div>
+							<img src="images/galadriel.jpg" alt="Galadriel" style="width:100%;border-radius:6px;filter:brightness(0.85);">
+						</div>
+					</div>
+				</section>
+
+
+				<!-- Change mindset -->
+				<section>
+					<h2>Change mindset</h2>
+					<div class="cols">
+						<div class="card" style="border-color: rgba(248,113,113,0.2);">
+							<span class="label" style="color:#f87171;">Task-oriented</span>
+							<p class="hackathon-date" style="font-size:16px!important;margin:6px 0 8px;">My goal is to close tickets</p>
+							<p>You receive a spec, you implement it, done. Success = task completed. This loop is exactly what AI is replacing — fast, cheap, tireless.</p>
+						</div>
+						<div class="card" style="border-color: rgba(74,222,128,0.2);">
+							<span class="label" style="color:#4ade80;">Product mindset</span>
+							<p class="hackathon-date" style="font-size:16px!important;margin:6px 0 8px;">My goal is to deliver value</p>
+							<p>Success = real impact for the user and the business. Code is just one tool to get there. AI frees up time to think about the <em>right</em> problems, not just execute.</p>
+						</div>
+					</div>
+					<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-top:0.8em;">
+						<div class="note info" style="flex:1;margin:0;">
+							<p>This isn't about doing more of the same. It's about becoming the <em>product owner</em> of your own feature pipeline.</p>
+						</div>
+						<img src="images/sign2.png" style="height:90px;border-radius:10px;object-fit:cover;opacity:0.9;flex-shrink:0;">
+					</div>
+				</section>
+
+				<!-- Engineer's role -->
+				<!-- Engineering evolution -->
+				<section>
+					<h2>The evolution of engineering work</h2>
+					<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:0.7em;">
+
+						<div class="fragment" style="background:var(--bg-1);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+							<img src="images/stage0.png" style="width:100%;height:90px;object-fit:cover;display:block;">
+							<div style="padding:10px 12px;">
+								<span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--text-lo);letter-spacing:.07em;display:block;margin-bottom:5px;">STAGE 0 · HANDCRAFT</span>
+								<p style="margin:0;font-size:11.5px;color:var(--text-mid);line-height:1.5;">Written by hand. Speed came from experience and deep language knowledge.</p>
+							</div>
+						</div>
+
+						<div class="fragment" style="background:var(--bg-1);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+							<img src="images/stage1.png" style="width:100%;height:90px;object-fit:cover;display:block;">
+							<div style="padding:10px 12px;">
+								<span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--text-lo);letter-spacing:.07em;display:block;margin-bottom:5px;">STAGE 1 · AUTOCOMPLETE</span>
+								<p style="margin:0;font-size:11.5px;color:var(--text-mid);line-height:1.5;">Less memorisation, faster boilerplate. Speed came from delegation.</p>
+							</div>
+						</div>
+
+						<div class="fragment" style="background:var(--bg-1);border:1px solid rgba(79,142,247,0.35);border-radius:6px;overflow:hidden;">
+							<div style="position:relative;">
+								<img src="images/stage2.png" style="width:100%;height:90px;object-fit:cover;display:block;">
+								<span style="position:absolute;bottom:6px;right:6px;font-family:'IBM Plex Mono',monospace;font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(12,12,14,0.85);color:var(--accent);">← we are here</span>
+							</div>
+							<div style="padding:10px 12px;">
+								<span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--accent);letter-spacing:.07em;display:block;margin-bottom:5px;">STAGE 2 · AGENTIC AI ASSISTANT</span>
+								<p style="margin:0;font-size:11.5px;color:var(--text-mid);line-height:1.5;">Full features from descriptions. Agent owns the task end-to-end inside your session.</p>
+							</div>
+						</div>
+
+						<div class="fragment" style="background:var(--bg-1);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+							<img src="images/stage3.png" style="width:100%;height:90px;object-fit:cover;display:block;">
+							<div style="padding:10px 12px;">
+								<span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--text-lo);letter-spacing:.07em;display:block;margin-bottom:5px;">STAGE 3 · MULTI-AGENT</span>
+								<p style="margin:0;font-size:11.5px;color:var(--text-mid);line-height:1.5;">Sub-agents in parallel — each owns a stage, sees only what it needs. You orchestrate, they execute.</p>
+							</div>
+						</div>
+
+						<div class="fragment" style="background:var(--bg-1);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+							<img src="images/stage4.png" style="width:100%;height:90px;object-fit:cover;display:block;">
+							<div style="padding:10px 12px;">
+								<span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:var(--text-lo);letter-spacing:.07em;display:block;margin-bottom:5px;">STAGE 4 · BACKGROUND AGENTS</span>
+								<p style="margin:0;font-size:11.5px;color:var(--text-mid);line-height:1.5;">Runs without you. No workstation needed — define the goal, agents handle the rest while you sleep.</p>
+							</div>
+						</div>
+
+					</div>
+				</section>
+
+				<section>
+					<h2>Specify. Review. Steer.</h2>
+					<div class="cols">
+						<div>
+							<p>Without a harness, an AI agent is a thoroughbred in an open field. <em>Fast, impressive, utterly useless for actual work.</em></p>
+							<div class="divider" style="margin:0.8em 0;"></div>
+							<ul>
+								<li><strong>Setting up the agent</strong> — CLAUDE.md, skills, rules, tools. What Claude knows about your project before it starts.</li>
+								<li><strong>Adding task context</strong> — relevant files, examples, constraints, related tickets. The more the agent knows upfront, the less it has to guess.</li>
+								<li><strong>Specifying intent</strong> — clear task definitions, acceptance criteria, what "done" means. Vague input → vague output.</li>
+								<li><strong>Providing feedback</strong> — reviewing agent output, correcting course, teaching the system. Not debugging line by line.</li>
+							</ul>
+						</div>
+						<div>
+							<table class="compare-table" style="margin-top:0;">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Before</th>
+										<th>Now</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="row-label">Code</td>
+										<td>Write it yourself</td>
+										<td style="color:var(--text-hi);">Design environments where AI writes it</td>
+									</tr>
+									<tr>
+										<td class="row-label">Debug</td>
+										<td>Debug code</td>
+										<td style="color:var(--text-hi);">Debug agent behavior</td>
+									</tr>
+									<tr>
+										<td class="row-label">Review</td>
+										<td>Review code</td>
+										<td style="color:var(--text-hi);">Review agent output + harness efficiency</td>
+									</tr>
+									<tr>
+										<td class="row-label">Tests</td>
+										<td>Write tests</td>
+										<td style="color:var(--text-hi);">Design testing strategies</td>
+									</tr>
+									<tr>
+										<td class="row-label">Docs</td>
+										<td>Write documentation</td>
+										<td style="color:var(--text-hi);">Build docs as machine-readable infra</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="note info" style="margin-top:0.6em;">
+								<p><em>Model is commodity. Harness is competitive advantage.</em></p>
+							</div>
+						</div>
+						<div class="note warn" style="margin-top:0.8em;">
+							<p>There will be more work, not less. We will just do it an order of magnitude faster.</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- AI tools landscape: harness concept -->
+				<section>
+					<h2>AI tools: three layers</h2>
+					<p style="margin-bottom:1em;">Most people confuse the model with the tool. They're different layers.</p>
+					<div class="cols-3">
+						<div class="card" style="text-align:center;">
+							<span class="label" style="text-align:center;display:block;">Layer 1</span>
+							<h3 style="text-align:center;font-size:18px!important;">LLM</h3>
+							<p style="text-align:center;">Claude, GPT, Gemini<br>The "brain" — generates text</p>
+						</div>
+						<div class="card" style="text-align:center;border-color:rgba(79,142,247,0.3);">
+							<span class="label" style="text-align:center;display:block;color:var(--accent);">Layer 2 · key</span>
+							<h3 style="text-align:center;font-size:18px!important;color:var(--accent);">Harness</h3>
+							<p style="text-align:center;">File ops, memory, context, tools, ReAct loop<br><strong>The actual agent infrastructure</strong></p>
+						</div>
+						<div class="card" style="text-align:center;">
+							<span class="label" style="text-align:center;display:block;">Layer 3</span>
+							<h3 style="text-align:center;font-size:18px!important;">UI</h3>
+							<p style="text-align:center;">Chat, editor, terminal<br>What you interact with</p>
+						</div>
+					</div>
+					<div class="note info" style="margin-top:0.8em;">
+						<p><strong>Key insight:</strong> natively matched harness + model (same vendor) consistently outperforms mixed setups. The vendor optimizes the pair together.</p>
+					</div>
+				</section>
+	
+				<!-- Tools comparison -->
+				<section>
+					<h2>Tools on the market</h2>
+					<table class="compare-table">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Claude Code</th>
+								<th>Cursor</th>
+								<th>Copilot</th>
+								<th>Codex (OpenAI)</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="row-label">Model</td>
+								<td>Claude (Anthropic)</td>
+								<td>Any (configurable)</td>
+								<td>Any (configurable)</td>
+								<td>GPT (OpenAI)</td>
+							</tr>
+							<tr>
+								<td class="row-label">Harness</td>
+								<td><em>Own (native)</em></td>
+								<td>Own</td>
+								<td>—</td>
+								<td><em>Own (native)</em></td>
+							</tr>
+							<tr>
+								<td class="row-label">Strength</td>
+								<td>Output quality, sets the standard first — others follow. Best for agentic development</td>
+									<td>Speed, UX, inline diff, cherry-pick any model</td>
+									<td>GitHub integration</td>
+									<td>Best for pure coding tasks, cloud agents</td>
+							</tr>
+							<tr>
+								<td class="row-label">Weakness</td>
+								<td>Initial setup complexity</td>
+									<td>Rate limits, IDE-locked</td>
+									<td>No harness, much lower quality</td>
+									<td>Slow to ship new features</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+	
+				<!-- Why Claude Code: CTO decision -->
+				<section>
+					<h2>Why Claude Code</h2>
+					<div class="cols">
+						<div>
+							<span class="label">What sets it apart</span>
+							<ul style="margin-top:0.4em;">
+								<li><strong>up to 1M token context</strong> — reads the entire codebase, not just open files. Fewer hallucinations, deeper reasoning.</li>
+								<li><strong>Model + harness co-built</strong> — Anthropic made both. No adapter layer, no quality loss.</li>
+								<li><strong>True agentic loop</strong> — reads files, runs commands, fixes failing tests, opens MRs. Not autocomplete, an autonomous worker.</li>
+								<li><strong>Best for agentic tasks, ships features fastest</strong> — purpose-built for autonomous multi-step work, not an IDE plugin with agent mode bolted on. New capabilities land here first — others follow.</li>
+							</ul>
+						</div>
+						<div>
+							<span class="label">Honest cons</span>
+							<ul style="margin-top:0.4em;">
+								<li class="con"><strong>UX</strong> — terminal-first, no inline suggestions. Different paradigm from Cursor/Copilot. Takes adjustment.</li>
+								<li class="con"><strong>Setup cost</strong> — CLAUDE.md, MCP servers, skills all need upfront work. Cold start is slow.</li>
+								<li class="con"><strong>Token burn</strong> — large context = higher cost per session. Agent teams multiply this.</li>
+							</ul>
+							<div class="note warn" style="margin-top:0.8em;">
+								<p><strong>Mar 23:</strong> Copilot, Codex (ChatGPT), and Cursor company accounts are disabled. Save your data before then.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+	
+				<!-- Setup -->
+				<section>
+					<h2>Getting started</h2>
+					<div class="cols">
+						<div>
+							<span class="label">Install</span>
+							<p>Access via <code>console.jumpcloud.com</code> → install Claude Code.</p>
+							<div style="display:flex;align-items:center;gap:12px;margin-top:0.6em;">
+								<p style="margin:0;font-style:italic;color:var(--muted);">You've already done this, right? Right?</p>
+								<img src="images/padme.png" alt="Padme meme" style="height:80px;border-radius:6px;flex-shrink:0;">
+							</div>
+	
+							<div class="divider" style="margin:0.8em 0;"></div>
+	
+							<span class="label">Terminal vs. Extension</span>
+							<p><strong>Recommendation: terminal.</strong> Extensions require extra configuration and most learning materials assume terminal. Tried the extension — ended up back in terminal.</p>
+							<p style="margin-top:0.5em;">The main shift: <em>diff review instead of inline edits</em>. Different from Cursor/Copilot but works well once you adapt.</p>
+						</div>
+						<div style="display:flex;flex-direction:column;gap:12px;">
+						<div class="card" style="border-color:rgba(74,222,128,0.2);">
+							<span class="label" style="color:#4ade80;">Budget</span>
+							<h3>$100/month per person</h3>
+							<p>No cooldown. Shared org pool — can be redistributed if needed. <em>Don't worry about tokens.</em></p>
+						</div>
+						<div class="card">
+							<span class="label">Pro tip</span>
+							<h3>Run above multiple repos</h3>
+							<p>Launch Claude Code from a parent directory containing multiple projects. One agent, full context across repos — great for cross-repo refactors or shared libraries.</p>
+							<pre style="margin-top:0.6em;"><code>~/projects/
+	  ├── user-app/
+	  ├── emails/
+	  └── shared/
+	$ claude   # runs here, sees all</code></pre>
+						</div>
+						</div>
+					</div>
+				</section>
+	
+				<!-- MCPs -->
+				<section>
+					<h2>Essential MCPs</h2>
+					<p style="margin-bottom:0.8em;">MCPs extend Claude's reach into your actual workflow — not just code.</p>
+					<div class="cols">
+						<ul>
+							<li><strong>Jira</strong> — read tickets, create issues, update status</li>
+							<li><strong>Slack</strong> — search messages, post updates</li>
+							<li><strong>Notion</strong> — read/write docs, specs, notes</li>
+							<li><strong>Figma</strong> — read designs, extract tokens</li>
+							<li><strong>Context7</strong> — up-to-date library docs (avoids hallucinating old APIs)</li>
+						</ul>
+						<ul>
+							<li><strong>Serena</strong> — token-aware codebase navigation, reduces context cost</li>
+							<li><strong>RTK</strong> — AI agent toolkit (<code>rtk-ai/rtk</code>)</li>
+							<li><strong>glab</strong> — GitLab CLI: MRs, pipelines, reviews</li>
+							<li><strong>chrome-devtools-mcp</strong> — connects agent to a live Chrome tab: inspect DOM, read console logs, watch network, automate interactions. Full browser vision for agents where <code>--chrome</code> is unavailable</li>
+						</ul>
+					</div>
+					<div class="note info" style="margin-top:0.6em;">
+						<p>Run <code>/mcp list</code> to see connected MCPs and their auth status. Most require OAuth — authorize once per session.</p>
+					</div>
+				</section>
+	
+				<!-- Chrome mode -->
+				<section>
+					<h2>Browser automation: <code>--chrome</code></h2>
+					<div class="cols">
+						<div>
+							<p>Claude can control a Chrome browser directly — navigate, click, fill forms, take screenshots, read the DOM.</p>
+							<ul style="margin-top:0.6em;">
+								<li>UI testing without writing test scripts</li>
+								<li>Verify visual output after a change</li>
+								<li>Fill staging forms, test user flows</li>
+								<li>Screenshot capture for visual regression</li>
+							</ul>
+						</div>
+						<div>
+							<div class="note warn">
+								<p><strong>Windows limitation:</strong> <code>--chrome</code> mode requires additional setup on Windows (Chrome debug port configuration). Works out of the box on macOS and Linux.</p>
+							</div>
+							<div class="card" style="margin-top:0.6em;">
+								<span class="label">How we use it</span>
+								<p>Launch a local dev server → point Claude at it → describe what to check. Useful for catching layout regressions without writing Playwright specs.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- Field-tested tips -->
+				<section>
+					<h2>Field-tested tips</h2>
+					<div class="cols">
+						<ul>
+							<li><strong>Plan Mode</strong> — <code>Shift+Tab</code> twice. Read-only exploration until you confirm. Fewer wrong assumptions. Use <code>/model opusplan</code> to switch to Opus for the planning phase — better reasoning on complex tasks.</li>
+							<li><strong>HANDOFF.md</strong> — before ending a session, ask Claude to write current state: what worked, what didn't, what's next. Fresh context picks up from there.</li>
+						</ul>
+						<ul>
+							<li><strong>Define "done" upfront</strong> — which commands must pass, what screenshots should show. If you can't articulate it, the task isn't ready for autonomous run.</li>
+							<li><strong><code>claude --continue</code></strong> — resume the latest session. <code>--fork</code> to try a different approach from the same point.</li>
+						</ul>
+					</div>
+				</section>
+
+				<!-- Why all of this exists -->
+				<section>
+					<h2>Setup once, benefit every run</h2>
+					<div class="cols" style="margin-top:0.3em;">
+						<div>
+							<p>An LLM is a pure function. Same model — but the output quality depends entirely on what you put in.</p>
+							<div style="margin:1em 0;padding:14px 18px;background:var(--bg-2);border:1px solid var(--border);border-radius:6px;text-align:center;display:flex;flex-direction:column;gap:6px;">
+								<span style="font-family:'IBM Plex Mono',monospace;font-size:16px;color:var(--text-hi);letter-spacing:.02em;"><span style="color:var(--text-lo);font-size:11px;">maximize</span> &nbsp;quality &nbsp;=&nbsp; f( <span style="color:var(--accent);">context</span>, <span style="color:#4ade80;">prompt</span> )</span>
+								<span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-lo);letter-spacing:.06em;"><span style="color:var(--amber);">tokens</span> &nbsp;→&nbsp; min</span>
+							</div>
+							<ul style="margin-top:0.6em;">
+								<li><span style="color:var(--accent);">Context</span> — what the model knows: your codebase, rules, task definition, available tools. Relevant context = better output. Noisy context actively hurts.</li>
+								<li><span style="color:#4ade80;">Prompt</span> — how you frame the task. <strong>Garbage in, garbage out.</strong> Vague input → vague output, no matter how good the model.</li>
+								<li><span style="color:var(--amber);">Tokens</span> — time × money. Every token in the window costs. Wasted context = wasted budget.</li>
+							</ul>
+						</div>
+						<div style="display:flex;align-items:center;justify-content:center;">
+							<img src="images/limit.png" style="max-height:45vh;border-radius:8px;object-fit:contain;">
+						</div>
+					</div>
+					<div class="note info" style="margin-top:0.5em;">
+						<p>The goal isn't to give the model more — it's to give it <em>exactly</em> what it needs. As I covered in the previous talk: it's all about <em>storytelling</em>.</p>
+					</div>
+				</section>
+
+				<!-- Five building blocks -->
+				<section>
+					<h2>Five building blocks</h2>
+					<p style="margin-bottom:0.9em;color:var(--text-mid);">Each solves a different problem. Don't mix them up.</p>
+					<table style="width:100%;border-collapse:collapse;font-size:13px;">
+						<thead>
+							<tr style="border-bottom:1px solid var(--border);">
+								<th style="text-align:left;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--text-lo);font-weight:400;">BLOCK</th>
+								<th style="text-align:left;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--text-lo);font-weight:400;">WHAT IT IS</th>
+								<th style="text-align:left;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--text-lo);font-weight:400;">WHO TRIGGERS</th>
+								<th style="text-align:left;padding:6px 10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--text-lo);font-weight:400;">GOOD FOR</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr style="border-bottom:1px solid var(--border-dim);">
+								<td style="padding:8px 10px;"><span style="font-family:'IBM Plex Mono',monospace;color:var(--accent);">CLAUDE.md</span></td>
+								<td style="padding:8px 10px;color:var(--text-mid);">Persistent context the model reads at session start</td>
+								<td style="padding:8px 10px;color:var(--text-lo);">Auto-loaded</td>
+								<td style="padding:8px 10px;color:var(--text-mid);">Rules, conventions, "never do X"</td>
+							</tr>
+							<tr style="border-bottom:1px solid var(--border-dim);">
+								<td style="padding:8px 10px;"><span style="font-family:'IBM Plex Mono',monospace;color:#4ade80;">Slash commands</span></td>
+								<td style="padding:8px 10px;color:var(--text-mid);">Stored prompts and multi-step procedures</td>
+								<td style="padding:8px 10px;color:var(--text-lo);">You, explicitly</td>
+								<td style="padding:8px 10px;color:var(--text-mid);">Recurring workflows you control: /commit, /review-pr</td>
+							</tr>
+							<tr style="border-bottom:1px solid var(--border-dim);">
+								<td style="padding:8px 10px;"><span style="font-family:'IBM Plex Mono',monospace;color:#4ade80;">Skills</span></td>
+								<td style="padding:8px 10px;color:var(--text-mid);">Instructions + code bundled as a portable capability</td>
+								<td style="padding:8px 10px;color:var(--text-lo);">Claude, automatically</td>
+								<td style="padding:8px 10px;color:var(--text-mid);">Shareable domain knowledge: translate, markup, deploy</td>
+							</tr>
+							<tr style="border-bottom:1px solid var(--border-dim);">
+								<td style="padding:8px 10px;"><span style="font-family:'IBM Plex Mono',monospace;color:#fbbf24;">Hooks</span></td>
+								<td style="padding:8px 10px;color:var(--text-mid);">Shell scripts that run at specific lifecycle events</td>
+								<td style="padding:8px 10px;color:var(--text-lo);">Event-triggered, always</td>
+								<td style="padding:8px 10px;color:var(--text-mid);">Guaranteed side effects: lint, notify, log, gate</td>
+							</tr>
+							<tr>
+								<td style="padding:8px 10px;"><span style="font-family:'IBM Plex Mono',monospace;color:#f87171;">Sub-agents</span></td>
+								<td style="padding:8px 10px;color:var(--text-mid);">Isolated Claude instances with their own context window</td>
+								<td style="padding:8px 10px;color:var(--text-lo);">Claude spawns, or you explicitly</td>
+								<td style="padding:8px 10px;color:var(--text-mid);">Parallel work, large codebases, multi-step isolation</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<!-- CLAUDE.md -->
+				<section>
+					<h2>CLAUDE.md</h2>
+					<div class="cols">
+						<div>
+							<p>A markdown file Claude reads at session start — your persistent instructions. The more it knows about your project and preferences, the less you repeat yourself.</p>
+							<ul style="margin-top:0.6em;">
+								<li>Project architecture and conventions</li>
+								<li>Forbidden patterns ("never use X")</li>
+								<li>MCP setup and tool availability</li>
+								<li>Repo-specific commands and workflows</li>
+								<li>Links to key docs or specs</li>
+							</ul>
+						</div>
+						<div>
+							<span class="label">Override hierarchy</span>
+							<ul style="margin-top:0.4em;">
+								<li><code>~/.claude/CLAUDE.md</code> — personal global defaults: your preferences, style, tools</li>
+								<li><code>./CLAUDE.md</code> — project conventions, committed and shared with the team</li>
+								<li><code>./CLAUDE.local.md</code> — your local overrides, <strong>gitignored</strong></li>
+							</ul>
+							<div class="divider" style="margin:10px 0;"></div>
+							<div class="card">
+								<span class="label">Pro tip</span>
+								<p>After fixing a mistake: <em>"Update CLAUDE.md so you don't do this again."</em> The agent maintains its own instructions.</p>
+							</div>
+						</div>
+					</div>
+					<div class="note warn" style="margin-top:0.8em;">
+						<p>Convention across all our projects: we proxy everything through <code>AGENTS.md</code> — one entry point regardless of the tool.</p>
+					</div>
+					<div class="note info" style="margin-top:0.6em;">
+						<p><strong>Tip:</strong> Don't overload — noisy context hurts results. Keep <code>AGENTS.md</code> compact. Use <strong>progressive resolve</strong> — module-level files for local context, root only for global rules. The agent reads the closest one first.</p>
+					</div>
+				</section>
+
+				<!-- Slash commands -->
+				<section>
+					<h2>Slash commands</h2>
+					<div class="cols">
+						<div>
+							<p>Stored prompts and multi-step procedures you trigger explicitly. From simple one-liners to complex workflows.</p>
+							<ul style="margin-top:0.5em;">
+								<li><code>/commit</code> — draft a commit message</li>
+								<li><code>/review-pr</code> — review a pull request</li>
+								<li><code>/compact</code> — compress context to save tokens</li>
+								<li><code>/model opusplan</code> — switch to Opus for planning phase</li>
+								<li><code>/implement</code> — spec → code → MR, your custom pipeline</li>
+							</ul>
+						</div>
+						<div>
+							<div class="card">
+								<span class="label">Where they live</span>
+								<ul style="margin-top:0.4em;">
+									<li><code>~/.claude/commands/</code> — global, personal</li>
+									<li><code>.claude/commands/</code> — project, shared with team</li>
+								</ul>
+							</div>
+							<div class="note info" style="margin-top:0.8em;">
+								<p>If a skill isn't being auto-invoked reliably — wrap it in a slash command. You get explicit, predictable control.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- Skills -->
+				<section>
+					<h2>Skills</h2>
+					<div class="cols">
+						<div>
+							<p>Skills are all about <em>automatic discovery</em>. Bundles of instructions + code Claude finds and applies on its own. Best for single, well-defined tasks.</p>
+							<ul style="margin-top:0.5em;">
+								<li>Markdown files in <code>.claude/skills/</code>, can include Python scripts</li>
+								<li>Claude invokes them when it detects a matching task — no explicit call needed</li>
+							<li>Operate inside the current conversation — no separate session, no isolation</li>
+								<li>Portable — work across Claude web, desktop, and Claude Code</li>
+								<li>Shareable — team gets the same capabilities via plugin registry</li>
+							</ul>
+							<div class="note warn" style="margin-top:0.8em;">
+								<p>Auto-invocation can be inconsistent. For critical workflows — use a slash command instead for predictable control.</p>
+							</div>
+						</div>
+						<div>
+							<div class="card">
+								<span class="label">Skills vs Sub-agents</span>
+								<ul style="margin-top:0.4em;">
+									<li class="pro" style="color:var(--text-mid)"><strong>Skill</strong> — enhances the current session. Single task, no context isolation.</li>
+									<li class="pro" style="color:var(--text-mid)"><strong>Sub-agent</strong> — separate worker, isolated context. Complex multi-step work.</li>
+								</ul>
+							</div>
+							<div class="note info" style="margin-top:0.8em;">
+								<p>A skill file is also an onboarding doc — a new team member reads the same file as the agent.</p>
+							</div>
+							<div class="note warn" style="margin-top:0.6em;">
+								<p>Hundreds of ready-made skills available to download. You can also grab skills from colleagues — just copy the file.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+	
+
+
+
+	
+
+				<!-- Agents -->
+				<section>
+					<h2>Agents <span style="color:var(--text-lo);font-weight:400;">(sub-agents)</span></h2>
+					<div class="cols">
+						<div>
+							<p>A self-contained AI assistant with its own personality, knowledge, and tools. Claude can delegate to them automatically, but you can also tell it explicitly: <em>"Use the debugger subagent to check this error"</em>. The right expert is always on the case.</p>
+							<ul style="margin-top:0.5em;">
+								<li><strong>Context management</strong> — offload heavy work (codebase search, doc review) without filling up your main session</li>
+								<li><strong>Parallelism</strong> — spawn 10 agents researching 10 things simultaneously. All report back at once.</li>
+								<li><strong>Specialisation</strong> — each agent gets only the skills and context it needs for its task</li>
+								<li><strong>Sustained focus</strong> — complex multi-step work without distraction from the main session</li>
+								<li><strong>Simple config</strong> — single markdown file with YAML frontmatter. That's it.</li>
+							</ul>
+						</div>
+						<div>
+							<div class="card">
+								<span class="label">Rule of thumb</span>
+								<h3>If you can describe "done" — an agent can get there</h3>
+								<p>Ticket → spec → code → tests → MR → Jira comment. Each step is a task. The agent chains them.</p>
+							</div>
+							<div class="note info" style="margin-top:0.8em;">
+								<p>Isolated context is a double-edged sword: <strong>good</strong> — clean window, no noise; <strong>bad</strong> — agent may lack knowledge it needs. Solution: put domain knowledge into skills. Skills travel with the agent.</p>
+							</div>
+							<div class="note warn" style="margin-top:0.6em;">
+								<p>Parallel agents burn tokens fast. Use for tasks that genuinely benefit from parallelism — not as a default.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+
+				<!-- Subagents vs Agent Teams -->
+				<section>
+					<h2>Subagents vs Agent teams</h2>
+					<div class="cols">
+						<div>
+							<img src="images/sub-vs-team.png" alt="Subagents vs Agent Teams" style="width:100%;border-radius:6px;filter:brightness(0.9);">
+						</div>
+						<div>
+							<div style="display:flex;flex-direction:column;gap:0.6em;">
+								<div class="card" style="border-color:rgba(248,113,113,0.2);">
+									<span class="label" style="color:#f87171;">Subagents</span>
+									<ul style="margin-top:0.4em;">
+										<li>Spawned by main agent, report back to it only</li>
+										<li>Can't talk to each other</li>
+										<li>Lower token cost</li>
+										<li>Best for focused tasks where only the result matters</li>
+									</ul>
+								</div>
+								<div class="card" style="border-color:rgba(79,142,247,0.25);">
+									<span class="label" style="color:var(--accent);">Agent teams <span style="color:var(--amber);font-size:9px;letter-spacing:.06em;">EXPERIMENTAL</span></span>
+									<ul style="margin-top:0.4em;">
+										<li>Teammates message each other directly</li>
+										<li>Shared task list — self-coordinating</li>
+										<li>Higher token cost, scales with team size</li>
+										<li>Best for parallel exploration, competing hypotheses, cross-layer work</li>
+									</ul>
+								</div>
+								<div class="note warn" style="margin-top:0;">
+									<p>Rule of thumb: if workers only need to report results — subagents. If they need to debate and coordinate — agent team.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- ══ PART 3: EMAILS PROJECT ══════════════════════ -->
+
+			<section class="section-slide">
+				<p class="part-label">Part 3</p>
+				<h2>Emails project</h2>
+			</section>
+
+			<!-- The problem -->
+			<section>
+				<h2>The starting point</h2>
+				<div class="cols">
+					<div>
+						<p>A monorepo for all customer-facing transactional emails. What we had going in:</p>
+						<ul style="margin-top:0.6em;">
+							<li class="pro">Excellent documentation — every detail down to the last bolt</li>
+							<li class="pro">A domain expert fully embedded in the project</li>
+							<li class="pro">Lots of building blocks — shared partials, helpers, components</li>
+							<li class="pro">Low coupling between final templates</li>
+							<li class="con">Developers who weren't thrilled about the new responsibility</li>
+						</ul>
+					</div>
+					<div>
+						<div class="card" style="border-color:rgba(79,142,247,0.3);">
+							<span class="label" style="color:var(--accent);">Perfect conditions</span>
+							<h3>An ideal task for agents</h3>
+							<p>Well-documented, convention-heavy, repetitive, low-risk. The perfect candidate to fully delegate to an agentic pipeline.</p>
+						</div>
+						<div class="note info" style="margin-top:0.8em;">
+							<p>Good docs + clear conventions + isolated outputs = agents can own this end-to-end.</p>
+						</div>
+					</div>
+				</div>
+				<div style="display:flex;align-items:center;gap:24px;margin-top:1em;padding-top:0.9em;border-top:1px solid var(--border);">
+					<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-lo);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;">Kudos for</span>
+					<div style="display:flex;align-items:center;gap:20px;">
+						<div style="display:flex;align-items:center;gap:10px;">
+							<img src="images/pasko.png" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--border);">
+							<span style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-mid);">Daniel Pasko</span>
+						</div>
+						<div style="display:flex;align-items:center;gap:10px;">
+							<img src="images/ksenia.png" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--border);">
+							<span style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-mid);">Ksenia Krasilnikova</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- First step: knowledge base -->
+			<section>
+				<h2>Step one: teach the agent</h2>
+				<div class="cols">
+					<div>
+						<span class="label">AGENTS.md — the project map</span>
+						<p style="margin-top:0.3em;">A single comprehensive file with all conventions, structure, and rules. The agent reads it at session start — instant onboarding.</p>
+						<div class="divider" style="margin:0.7em 0;"></div>
+						<span class="label">5 specialized skills — domain knowledge</span>
+						<ul style="margin-top:0.4em;">
+							<li><strong>analyze-requirements</strong> — parse any input (spec, Notion, raw text) into a structured plan</li>
+							<li><strong>markup</strong> — implement templates using existing partials, never raw HTML</li>
+							<li><strong>translate</strong> — 7 languages with typography rules (nbsp, French punctuation, plurals)</li>
+							<li><strong>visual-review</strong> — open in browser, compare to spec, produce pass/fail report</li>
+							<li><strong>deploy-to-test</strong> — commit, push, create MR, update Jira</li>
+						</ul>
+					</div>
+					<div>
+						<div class="card" style="border-color:rgba(74,222,128,0.2);">
+							<span class="label" style="color:#4ade80;">What this gave us</span>
+							<h3>The agent understood the project</h3>
+							<p>Full awareness of conventions, file structure, build pipeline. No more hallucinating partials or inventing helpers. It knew what to do and how.</p>
+						</div>
+						<div class="note warn" style="margin-top:0.8em;">
+							<p>But this alone wasn't enough. Developers still had to run each step, review details, manage the flow. They didn't want to become email experts — they wanted to delegate the whole thing.</p>
+						</div>
+						<div class="note info" style="margin-top:0.6em;">
+							<p>So we went further — a fully autonomous pipeline.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- The idea -->
+			<section>
+				<h2>The idea: a purpose-built pipeline</h2>
+				<div class="cols">
+					<div>
+						<p>Don't use Claude as a smarter autocomplete. Build a <strong>pipeline of specialized agents</strong> where each one owns a single stage.</p>
+						<ul style="margin-top:0.6em;">
+							<li>Input can be anything: raw text, Jira URL, Notion spec</li>
+							<li>One command kicks off the whole flow</li>
+							<li>Human reviews the <em>spec</em> — not the implementation details</li>
+							<li>Agent handles the rest: markup, tests, visual QA, MR, Jira update</li>
+						</ul>
+					</div>
+					<div>
+						<div class="card" style="background:var(--bg-2);">
+							<span class="label">Command</span>
+							<h3 style="font-family:'IBM Plex Mono',monospace;font-size:13px!important;color:var(--accent);">/markup-email DEV-12345</h3>
+							<p>or a Notion URL, or just a description — the orchestrator figures out the rest.</p>
+						</div>
+						<div class="note info" style="margin-top:0.8em;">
+							<p>The agent fetches the Jira/Notion/Figma context itself. You don't copy-paste specs into the prompt.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Architecture -->
+			<section>
+				<h2>Architecture: three agents + orchestrator</h2>
+				<div class="cols-3" style="margin-top:0.6em;">
+					<div class="card">
+						<span class="tag blue">Agent 1</span>
+						<h3>Planner</h3>
+						<p>Reads the input (any form). Searches the codebase for similar templates, existing keys, partials. Produces a structured spec.</p>
+						<div class="divider"></div>
+						<p style="font-size:12px;color:var(--text-lo);">Makes autonomous assumptions, documents them. Uses Opus for complex analysis.</p>
+					</div>
+					<div class="card">
+						<span class="tag amber">Agent 2</span>
+						<h3>Markuper</h3>
+						<p>Implements the spec: <code>subject.hbs</code>, <code>content.hbs</code>, <code>context.json</code>. Runs <code>npm test</code> and ESLint. Fixes failures automatically (up to 3 attempts).</p>
+						<div class="divider"></div>
+						<p style="font-size:12px;color:var(--text-lo);">Reuses existing partials. Simplicity first — minimal new code.</p>
+					</div>
+					<div class="card">
+						<span class="tag green">Agent 3</span>
+						<h3>Reviewer</h3>
+						<p>Opens the rendered email in a browser via MCP. Compares output vs. spec block by block. Produces a structured PASS/FAIL report with screenshots.</p>
+						<div class="divider"></div>
+						<p style="font-size:12px;color:var(--text-lo);">Read-only. Never modifies files.</p>
+					</div>
+				</div>
+				<div class="note info" style="margin-top:0.8em;">
+					<p>A lead <strong>orchestrator</strong> (<code>/markup-email</code>) coordinates all three — fetches external context, gates at spec approval, runs deployment.</p>
+				</div>
+			</section>
+
+			<!-- Pipeline flow -->
+			<section>
+				<h2>The pipeline end-to-end</h2>
+				<div class="cols">
+					<div>
+						<ol style="margin-top:0.4em;">
+							<li>Orchestrator fetches spec from <strong>Jira / Notion / Figma</strong> via MCP</li>
+							<li><strong>Planner</strong> analyzes, searches repo, produces structured spec</li>
+							<li><em>You review the spec</em> — correct if needed</li>
+							<li><strong>Markuper</strong> creates 3 files + 7-language translations</li>
+							<li>Runs <code>npm test</code> — fixes failures autonomously</li>
+							<li><strong>Reviewer</strong> opens browser, screenshots, compares vs. spec</li>
+							<li>Orchestrator commits, pushes, creates <strong>GitLab MR</strong>, posts QA results to <strong>Jira</strong></li>
+						</ol>
+					</div>
+					<div>
+						<div class="card">
+							<span class="label">Your touchpoints</span>
+							<h3>Two moments, not seven</h3>
+							<p><strong>1.</strong> Review the spec after Planner.<br>
+							<strong>2.</strong> Merge the MR after everything passes.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Demo walkthrough -->
+			<section>
+				<h2>Demo</h2>
+				<div style="position:relative;width:100%;height:480px;margin-top:0.4em;">
+					<img src="images/email1.png" alt="Step 1" class="fragment fade-in-then-out" data-fragment-index="0" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">
+					<img src="images/email2.png" alt="Step 2" class="fragment fade-in-then-out" data-fragment-index="1" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">
+					<img src="images/email3.png" alt="Step 3" class="fragment fade-in-then-out" data-fragment-index="2" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">
+					<img src="images/email4.png" alt="Step 4" class="fragment fade-in-then-out" data-fragment-index="3" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">
+					<img src="images/email5.png" alt="Step 5" class="fragment fade-in-then-out" data-fragment-index="4" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">
+					<img src="images/email6.png" alt="Step 6" class="fragment fade-in-then-out" data-fragment-index="5" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">
+					<img src="images/email7.png" alt="Step 7" class="fragment fade-in-then-out" data-fragment-index="6" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">
+					<img src="images/email8.png" alt="Step 8" class="fragment fade-in-then-out" data-fragment-index="7" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;">
+					<div class="fragment fade-in" data-fragment-index="8" style="position:absolute;top:0;left:0;width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:center;">
+						<img src="images/email9.png" alt="Result 1" style="width:100%;height:100%;object-fit:contain;">
+						<img src="images/email10.png" alt="Result 2" style="width:100%;height:100%;object-fit:contain;">
+						<img src="images/email11.png" alt="Result 3" style="width:100%;height:100%;object-fit:contain;">
+					</div>
+				</div>
+			</section>
+
+			<!-- Emails: validation -->
+			<section>
+				<h2>Does it actually work?</h2>
+				<div class="cols">
+					<div>
+						<p>Tested on <strong>6 production emails</strong>. Result: more than satisfactory.</p>
+						<ul style="margin-top:0.6em;">
+							<li class="pro">Danya is satisfied — but will keep watch</li>
+							<li>Does exactly what you describe. The key is specifying the task correctly — if you don't know what you want, you won't get it.</li>
+						</ul>
+						<div style="display:flex;align-items:center;gap:12px;margin-top:0.8em;">
+							<img src="images/povalaev.png" alt="povalaev" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+							<p style="margin:0;font-size:13px;color:var(--text-mid);">First backend dev to ship an email with zero* frontend involvement.</p>
+						</div>
+					</div>
+					<div style="display:flex;align-items:center;justify-content:center;">
+						<img src="images/meme-success.png" alt="Success" style="max-height:260px;border-radius:8px;object-fit:contain;">
+					</div>
+				</div>
+			</section>
+
+			<!-- Emails: what's next -->
+			<section>
+				<h2>Emails: next step</h2>
+				<div class="cols">
+					<div>
+						<svg viewBox="0 0 380 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;">
+							<defs>
+								<marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+									<path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.15)"/>
+								</marker>
+								<marker id="arr-dim" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+									<path d="M0,0 L6,3 L0,6 Z" fill="rgba(255,255,255,0.06)"/>
+								</marker>
+							</defs>
+							<!-- Context -->
+							<rect x="0" y="10" width="110" height="80" rx="6" fill="#17171b" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+							<text x="55" y="38" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#3a3a3e" letter-spacing="1">CURRENT</text>
+							<text x="55" y="56" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-size="13" font-weight="600" fill="#f0f0f0">Context</text>
+							<text x="55" y="72" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#8a8a8e">CLAUDE.md · Skills</text>
+							<!-- Arrow -->
+							<line x1="112" y1="50" x2="128" y2="50" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" marker-end="url(#arr)"/>
+							<!-- Agents -->
+							<rect x="130" y="10" width="110" height="80" rx="6" fill="#17171b" stroke="rgba(79,142,247,0.35)" stroke-width="1"/>
+							<text x="185" y="38" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#4f8ef7" letter-spacing="1">CURRENT</text>
+							<text x="185" y="56" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-size="13" font-weight="600" fill="#f0f0f0">Agents</text>
+							<text x="185" y="72" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#8a8a8e">3 agents · 5 skills</text>
+							<!-- Arrow dashed -->
+							<line x1="242" y1="50" x2="258" y2="50" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-dim)"/>
+							<!-- Platform -->
+							<rect x="260" y="10" width="115" height="80" rx="6" fill="#111114" stroke="rgba(232,184,75,0.25)" stroke-width="1" stroke-dasharray="5,3"/>
+							<text x="317" y="38" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#e8b84b" letter-spacing="1">NEXT</text>
+							<text x="317" y="56" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-size="13" font-weight="600" fill="#e8b84b">Platform</text>
+							<text x="317" y="72" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#8a8a8e">n8n · triggers · API</text>
+							<!-- Downward arrow from Platform -->
+							<line x1="317" y1="92" x2="317" y2="108" stroke="rgba(232,184,75,0.15)" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arr-dim)"/>
+							<!-- Background agent -->
+							<rect x="260" y="110" width="115" height="80" rx="6" fill="#111114" stroke="rgba(232,184,75,0.15)" stroke-width="1" stroke-dasharray="5,3"/>
+							<text x="317" y="138" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#3a3a3e" letter-spacing="1">AUTONOMOUS</text>
+							<text x="317" y="156" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-size="12" font-weight="500" fill="#3a3a3e">Background</text>
+							<text x="317" y="172" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#2a2a2e">Jira webhook → email</text>
+						</svg>
+					</div>
+					<div>
+						<div class="card" style="border-color:rgba(232,184,75,0.2);">
+							<span class="label" style="color:var(--amber);">The vision</span>
+							<h3>From CLI to autonomous background agents</h3>
+							<p>The agent moves outside the repo. <strong>n8n</strong> orchestrates triggers — Jira webhook fires, agent picks up the task, delivers a ready MR. No terminal, no human in the loop.</p>
+						</div>
+						<ul style="margin-top:0.8em;">
+							<li><strong>Trigger:</strong> Jira ticket moves to "Ready for dev"</li>
+							<li><strong>n8n workflow:</strong> fetches spec → spawns agent → monitors</li>
+							<li><strong>Output:</strong> MR + screenshots + Jira comment</li>
+							<li><em>Developer only reviews and merges</em></li>
+						</ul>
+						<div class="note info" style="margin-top:0.8em;">
+							<p>Same context, same skills — just a different trigger. The agent doesn't care who starts it.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ══ PART 4: FINOM PROJECT ════════════════════════ -->
+
+			<section class="section-slide">
+				<p class="part-label">Part 4</p>
+				<h2>Finom project</h2>
+			</section>
+
+			<!-- What was done -->
+			<section>
+				<h2>What was built</h2>
+				<div class="cols">
+					<div>
+						<p>Full agentic dev infrastructure for the main repository.</p>
+						<ul style="margin-top:0.6em;">
+							<li><strong>AGENTS.md</strong> — compact repo map: stack, modules, patterns, dos and don'ts. Progressive resolve — module-level files first, falls back to root AGENTS.md.</li>
+							<li><strong>14 skills</strong> — each covers a domain: components, styling, i18n, tests, forms, popups, analytics, feature flags, finom/ui migration, deploy</li>
+							<li><strong>/implement</strong> — orchestrator: from ticket to MR in Jira. Two gates: after spec and after code. Spawns 2 subagents: Planner builds the spec, Coder implements via TDD.</li>
+						</ul>
+					</div>
+					<div>
+						<div class="card">
+							<span class="label">Typical flow</span>
+							<h3><code>/implement DEV-12345</code></h3>
+							<p>
+								Planner reads Jira/Figma/Notion →<br>
+										builds spec → you approve →<br>
+										Coder writes tests → writes code → lint/types →<br>
+										pushes, opens MR, comments in Jira
+							</p>
+						</div>
+						<div class="note info" style="margin-top:0.8em;">
+							<p>The agent reads Figma itself, finds similar patterns in the repo itself, writes tests first.</p>
+						</div>
+					</div>
+				</div>
+				<div style="display:flex;align-items:center;gap:24px;margin-top:1em;padding-top:0.9em;border-top:1px solid var(--border);">
+					<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text-lo);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;">Kudos for</span>
+					<div style="display:flex;align-items:center;gap:20px;">
+						<div style="display:flex;align-items:center;gap:10px;">
+							<img src="images/Petropavlovskih.png" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--border);">
+							<span style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-mid);">Aleksandr Petropavlovskikh</span>
+						</div>
+						<div style="display:flex;align-items:center;gap:10px;">
+							<img src="images/Meijel.png" style="width:44px;height:44px;border-radius:50%;object-fit:cover;border:1px solid var(--border);">
+							<span style="font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-mid);">Vladislav Meijel</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Finom diagram -->
+			<section>
+				<h2>What's ready, what's coming</h2>
+				<div class="cols-3" style="margin-top:0.6em;align-items:start;">
+					<!-- Column 1: AI docs -->
+					<div>
+						<span class="label" style="color:var(--accent);">AI documentation</span>
+						<ul style="margin-top:0.5em;">
+							<li><code>AGENTS.md</code> — root repo map</li>
+							<li><code>src/components/AGENTS.md</code></li>
+							<li><code>src/features/AGENTS.md</code></li>
+							<li><code>src/i18n/AGENTS.md</code></li>
+							<li style="color:var(--text-lo);font-size:12px;">…progressive resolve, compact</li>
+						</ul>
+						<div class="divider" style="margin:0.7em 0;"></div>
+						<span class="label">slash command</span>
+						<ul style="margin-top:0.5em;">
+							<li><code>/implement</code> — ticket → MR</li>
+						</ul>
+					</div>
+					<!-- Column 2: subagents -->
+					<div>
+						<span class="label" style="color:var(--accent);">Subagents · ready</span>
+						<ul style="margin-top:0.5em;">
+							<li><strong>Planner</strong> — reads Jira/Figma/Notion, builds spec</li>
+							<li><strong>Coder</strong> — TDD, lint, types, MR</li>
+						</ul>
+						<div class="divider" style="margin:0.7em 0;"></div>
+						<span class="label" style="color:var(--text-lo);">Subagents · coming Q2 26</span>
+						<ul style="margin-top:0.5em;">
+							<li style="color:var(--text-lo);"><strong>QA</strong> — e2e, visual regression</li>
+							<li style="color:var(--text-lo);"><strong>analyze-mr</strong> — review before merge</li>
+						</ul>
+					</div>
+					<!-- Column 3: skills -->
+					<div>
+						<span class="label" style="color:var(--accent);">Skills · ready (14)</span>
+						<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:0.5em;">
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">components</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">styling</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">i18n</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">tdd</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">forms</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">popups</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">analytics</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">features</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">finom/ui</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">deploy</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">typescript</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">figma-spec</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">data-fetch</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(79,142,247,0.2);border-radius:3px;color:var(--accent);">analyze-reqs</span>
+						</div>
+						<div class="divider" style="margin:0.7em 0;"></div>
+						<span class="label" style="color:var(--text-lo);">Skills · coming Q2 26</span>
+						<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:0.5em;">
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(255,255,255,0.05);border-radius:3px;color:var(--text-lo);">e2e-tests</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(255,255,255,0.05);border-radius:3px;color:var(--text-lo);">form-writer</span>
+							<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;padding:3px 7px;border:1px solid rgba(255,255,255,0.05);border-radius:3px;color:var(--text-lo);">security</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- How can you help -->
+			<section>
+				<h2>How can you help?</h2>
+				<div class="cols">
+					<div>
+						<p>The infrastructure is live. It gets better with every use.</p>
+						<p style="font-size:13px;">Yes, it will hallucinate at first. The only way to fix that is to <em>try it, find the gaps, and fix them</em>.</p>
+						<div class="divider" style="margin:0.8em 0;"></div>
+						<span class="label">Try it</span>
+						<ul style="margin-top:0.5em;">
+							<li>Try Claude on a task you know well — without <code>/implement</code>. See what it can do out of the box.</li>
+							<li>Then run <code>/implement DEV-XXXX</code> on a real ticket. Notice the difference.</li>
+						</ul>
+						<div class="note warn" style="margin-top:0.6em;">
+							<p>Nobody is forced to use <code>/implement</code> — use it when it makes sense. The goal is to have the option, not to replace your workflow.</p>
+						</div>
+						<div class="divider" style="margin:0.8em 0;"></div>
+						<span class="label">Feed it back</span>
+						<ul style="margin-top:0.5em;">
+							<li>Something broke or felt wrong — tell us. Every failure is a gap in a skill file.</li>
+							<li>Something worked better than expected — also tell us.</li>
+						</ul>
+					</div>
+					<div>
+						<span class="label">Suggest &amp; add skills</span>
+						<ul style="margin-top:0.5em;">
+							<li>You know your domain better than any skill file. If you spot a missing convention — propose it or write it.</li>
+							<li>A skill is just a markdown file. If you can describe how something should work, you can write a skill.</li>
+						</ul>
+						<div class="note info" style="margin-top:0.9em;">
+							<p>The goal: the agent knows the codebase as well as the most experienced dev on the team. That only happens if the team is involved.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Back office -->
+			<section>
+				<h2>Back Office</h2>
+				<div class="cols">
+					<div>
+						<p>Next quarter — bringing the same agentic infrastructure to Back Office.</p>
+						<ul style="margin-top:0.6em;">
+							<li>AGENTS.md tailored to the BO repo</li>
+							<li>Agents with domain knowledge of BO patterns</li>
+							<li>Skills covering internal conventions</li>
+							<li>Same flow: <code>/implement</code> → spec → code → MR</li>
+						</ul>
+					</div>
+					<div>
+						<div class="card" style="text-align:center;padding:32px 18px;">
+							<span class="tag" style="display:block;text-align:center;margin:0 auto 12px;">Q2 2026</span>
+							<h3 style="font-size:22px!important;color:var(--text-lo);">Coming soon</h3>
+							<p style="margin-top:8px;color:var(--text-lo);">Back Office gets the same infrastructure</p>
+						</div>
+					</div>
+				</div>
+				<div style="display:flex;justify-content:flex-end;margin-top:1em;">
+					<img src="images/aflek.png" style="height:72px;border-radius:8px;object-fit:cover;opacity:0.75;">
+				</div>
+			</section>
+
+			<!-- Alex Pavlov thanks -->
+			<section>
+				<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%;gap:1.4em;text-align:center;">
+					<img src="images/Pavlov.png" style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:1px solid var(--border);">
+					<div>
+						<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--amber);letter-spacing:0.1em;text-transform:uppercase;">Special kudos</span>
+						<h2 style="font-size:28px!important;margin:0.3em 0;">Alex Pavlov</h2>
+					</div>
+				</div>
+			</section>
+
+			<!-- Final slide -->
+			<section>
+				<h2>For the curious</h2>
+				<div class="cols">
+					<div>
+						<p>This presentation was also vibe-coded with AI.</p>
+						<ul style="margin-top:0.6em;">
+							<li>Built with <strong>Reveal.js</strong> — HTML + CSS, no PowerPoint</li>
+							<li>All design and slides — <strong>Claude Code</strong> with the <code>frontend-design</code> skill</li>
+							<li>Iteratively: describe what's needed → agent writes → review → next</li>
+							<li>Source in git — fork and adapt</li>
+						</ul>
+					</div>
+					<div>
+						<div class="card">
+							<span class="label">Stack</span>
+							<ul style="margin-top:0.4em;">
+								<li><strong>Reveal.js 6</strong> — презентации в браузере</li>
+								<li><strong>Claude Code</strong> — the dev agent</li>
+								<li><strong>claude-sonnet-4-6</strong> — модель</li>
+								<li><strong>frontend-design skill</strong> — дизайн-система</li>
+								<li><strong>chrome-devtools-mcp</strong> — visual verification</li>
+							</ul>
+						</div>
+						<div class="note info" style="margin-top:0.8em;">
+							<p>Want one like this? Just describe what you need. The agent handles the rest.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</div>
+		</div>
+
+		<script src="node_modules/reveal.js/dist/reveal.js"></script>
+		<script src="node_modules/reveal.js/dist/plugin/highlight.js"></script>
+		<script src="node_modules/reveal.js/dist/plugin/notes.js"></script>
+		<script src="node_modules/reveal.js/dist/plugin/markdown.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				slideNumber: true,
+				transition: "fade",
+				transitionSpeed: "fast",
+				width: 1280,
+				height: 720,
+				margin: 0.08,
+				plugins: [RevealHighlight, RevealNotes, RevealMarkdown],
+			});
+		</script>
+	</body>
+</html>

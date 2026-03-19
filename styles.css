@@ -1,0 +1,464 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap');
+
+/* ─── Tokens ─────────────────────────────────────────────── */
+:root {
+  --bg:           #0c0c0e;
+  --bg-1:         #111114;
+  --bg-2:         #17171b;
+  --border:       rgba(255, 255, 255, 0.07);
+  --border-dim:   rgba(255, 255, 255, 0.04);
+  --text-hi:      #f0f0f0;
+  --text-mid:     #8a8a8e;
+  --text-lo:      #3a3a3e;
+  --accent:       #4f8ef7;
+  --accent-sub:   rgba(79, 142, 247, 0.12);
+  --amber:        #e8b84b;
+  --amber-sub:    rgba(232, 184, 75, 0.10);
+  --green:        #4ade80;
+  --red:          #f87171;
+}
+
+/* ─── Reveal overrides ───────────────────────────────────── */
+.reveal-viewport {
+  background: var(--bg);
+}
+
+.reveal {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-mid);
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  text-transform: none;
+  text-shadow: none;
+  color: var(--text-hi);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-bottom: 0;
+}
+
+/* Override Reveal heading sizes with px for stability */
+.reveal h1 { font-size: 52px !important; font-weight: 600; }
+.reveal h2 { font-size: 30px !important; font-weight: 600; }
+.reveal h3 { font-size: 18px !important; font-weight: 500; }
+
+.reveal .slides section {
+  text-align: left;
+}
+
+/* ─── Body text ──────────────────────────────────────────── */
+.reveal p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-mid);
+  margin: 0 0 0.5em;
+  font-weight: 300;
+}
+
+.reveal strong {
+  color: var(--text-hi);
+  font-weight: 500;
+}
+
+.reveal em {
+  color: var(--amber);
+  font-style: normal;
+}
+
+/* ─── Mono / code ────────────────────────────────────────── */
+.reveal code,
+.mono {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82em;
+  color: var(--amber);
+  background: var(--amber-sub);
+  padding: 0.15em 0.45em;
+  border-radius: 3px;
+}
+
+.reveal pre {
+  box-shadow: none;
+  background: var(--bg-1) !important;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin: 0.7em 0;
+  width: 100%;
+}
+
+.reveal pre code {
+  background: transparent;
+  color: #c9c9cf;
+  padding: 1em 1.2em;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+/* ─── Lists ──────────────────────────────────────────────── */
+.reveal ul,
+.reveal ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.reveal ul li,
+.reveal ol li {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text-mid);
+  padding: 0.28em 0 0.28em 1.1em;
+  position: relative;
+  line-height: 1.5;
+}
+
+.reveal ul li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--text-lo);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.reveal ol { counter-reset: li; }
+.reveal ol li { counter-increment: li; }
+.reveal ol li::before {
+  content: counter(li, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  color: var(--text-lo);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  top: 0.5em;
+}
+
+/* ─── UI chrome ──────────────────────────────────────────── */
+.reveal .controls { display: none !important; }
+
+.reveal .slide-number {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-lo);
+  background: transparent;
+  bottom: 18px;
+  right: 22px;
+  letter-spacing: 0.05em;
+}
+
+.reveal .progress {
+  height: 1px;
+  background: var(--border-dim);
+}
+.reveal .progress span {
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+
+/* ══ TITLE SLIDE ════════════════════════════════════════════ */
+.reveal .title-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 0 !important;
+}
+
+.reveal .title-slide h1 {
+  font-size: 62px !important;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.0;
+  color: var(--text-hi);
+  margin-bottom: 0.35em;
+}
+
+.reveal .title-slide h1 .accent {
+  color: var(--accent);
+}
+
+.reveal .title-slide .author {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-lo);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ══ SECTION DIVIDER ════════════════════════════════════════ */
+.reveal .section-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.reveal .section-slide .part-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-lo);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.8em;
+}
+
+.reveal .section-slide h2 {
+  font-size: 46px !important;
+  font-weight: 600;
+  color: var(--text-hi);
+  letter-spacing: -0.03em;
+}
+
+/* ══ CONTENT SLIDES ═════════════════════════════════════════ */
+.reveal .slides section:not(.title-slide):not(.section-slide) h2 {
+  margin-bottom: 0.6em;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ─── Two-column layouts ─────────────────────────────────── */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 0.8em;
+}
+
+.cols-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-top: 0.8em;
+}
+
+/* ─── Card ───────────────────────────────────────────────── */
+.card {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 18px;
+}
+
+.card h3 {
+  font-size: 14px !important;
+  font-weight: 500;
+  color: var(--text-hi);
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.card p {
+  font-size: 13px;
+  color: var(--text-mid);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.card ul li {
+  font-size: 13px;
+}
+
+/* ─── Tag / badge ────────────────────────────────────────── */
+.tag {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 0.2em 0.55em;
+  border: 1px solid var(--border);
+  color: var(--text-lo);
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.tag.blue  { border-color: rgba(79,142,247,.25); color: var(--accent); }
+.tag.amber { border-color: rgba(232,184,75,.25); color: var(--amber); }
+.tag.green { border-color: rgba(74,222,128,.2);  color: var(--green); }
+
+/* ─── Divider ────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+}
+
+/* ─── Note / callout ─────────────────────────────────────── */
+.note {
+  border-left: 2px solid var(--border);
+  padding: 8px 14px;
+  margin: 10px 0;
+}
+.note p { font-size: 13px; margin: 0; }
+
+.note.warn  { border-left-color: var(--amber); }
+.note.info  { border-left-color: var(--accent); }
+.note.warn  p { color: #a0845a; }
+.note.info  p { color: #6a8ec4; }
+
+/* ─── Spoiler ────────────────────────────────────────────── */
+.spoiler {
+  display: inline-block;
+  position: relative;
+  cursor: default;
+}
+.spoiler-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  margin-bottom: 4px;
+}
+.spoiler-body {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px 12px;
+  filter: blur(4px);
+  transition: filter 0.3s ease;
+}
+.spoiler-body:hover,
+.spoiler-body:focus-within {
+  filter: blur(0);
+}
+.spoiler-body ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+.spoiler-body li {
+  font-size: 13px !important;
+  color: var(--text-mid);
+  line-height: 1.6;
+}
+
+/* ─── Pro / con list markers ─────────────────────────────── */
+.pro::before { content: '+'; position: absolute; left: 0;
+  color: var(--green) !important; font-family: 'IBM Plex Mono', monospace; }
+.con::before { content: '–'; position: absolute; left: 0;
+  color: var(--red) !important;   font-family: 'IBM Plex Mono', monospace; }
+
+/* ══ HACKATHON SLIDE ════════════════════════════════════════ */
+.reveal .hackathon-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+
+.hackathon-slide h2 {
+  border-bottom: none !important;
+  margin-bottom: 0.1em !important;
+  padding-bottom: 0 !important;
+  font-size: 34px !important;
+}
+
+.hackathon-sub {
+  font-size: 14px !important;
+  color: var(--text-mid) !important;
+  margin: 0 !important;
+  font-weight: 300;
+}
+
+.hackathon-date {
+  font-family: 'Bricolage Grotesque', sans-serif !important;
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  color: var(--text-hi) !important;
+  letter-spacing: -0.02em;
+  margin: 4px 0 2px !important;
+}
+
+.hackathon-footer {
+  margin-top: 1.2em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-lo);
+}
+
+.hackathon-slack {
+  color: var(--accent);
+}
+
+.dot {
+  color: var(--text-lo);
+  opacity: 0.4;
+}
+
+/* ─── Label above a block ────────────────────────────────── */
+.label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--text-lo);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ══ COMPARISON TABLE ═══════════════════════════════════════ */
+.reveal table.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  margin-top: 0.6em;
+}
+
+.reveal table.compare-table th,
+.reveal table.compare-table td {
+  padding: 7px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-mid);
+  line-height: 1.4;
+}
+
+.reveal table.compare-table thead th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  padding-bottom: 8px;
+}
+
+.reveal table.compare-table thead th:first-child { width: 90px; }
+
+.reveal table.compare-table .row-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+}
+
+/* Highlight Claude Code column */
+.reveal table.compare-table td:nth-child(2) {
+  color: var(--text-hi);
+}
+
+/* ─── Big stat ───────────────────────────────────────────── */
+.stat {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--text-hi);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-lo);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 4px;
+}
